@@ -34,6 +34,7 @@ html5_detection=1
 steam_detection=0
 minitube_detection=0
 audio_detection=0
+telegram_detection=1
 #minload=1.5
 delay=1
 
@@ -180,6 +181,9 @@ isAppRunning() {
     *minitube*)
         [ $minitube_detection = 1 ] && [ `pgrep -c minitube` -ge 1 ] && return 0
         ;;
+    *[Tt]elegram*)
+        [ $telegram_detection = 1 ] && [ `pgrep -c Telegram` -ge 1 ] && checkAudio Telegram && return 0
+        ;;
     *)
         if [ -n "$chrome_app_name" ]; then
             # Check if google chrome is running in app mode
@@ -230,6 +234,7 @@ help() {
     echo "  -mp, --mplayer          mplayer detection"
     echo "  -v,  --vlc              VLC detection"
     echo "  -t,  --totem            Totem detection"
+    echo "  -T,  --Telegram         Telegram detection"
     echo "  -ff, --firefox-flash    Firefox flash plugin detection"
     echo "  -cf, --chromium-flash   Chromium flash plugin detection"
     echo "  -ca, --chrome-app       Chrome app detection, app name must be passed"
@@ -260,6 +265,8 @@ while [ -n "$1" ]; do
             checkBool "$@"; vlc_detection=$2;;
         "-t" | "--totem" )
             checkBool "$@"; totem_detection=$2;;
+        "-T" | "--telegram" )
+            checkBool "$@"; telegram_detection$2;;
         "-ff" | "--firefox-flash" )
             checkBool "$@"; firefox_flash_detection=$2;;
         "-cf" | "--chromium-flash" )
